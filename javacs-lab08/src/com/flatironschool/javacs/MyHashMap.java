@@ -2,7 +2,8 @@
  * 
  */
 package com.flatironschool.javacs;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +41,28 @@ public class MyHashMap<K, V> extends MyBetterMap<K, V> implements Map<K, V> {
 	 * 
 	 */
 	protected void rehash() {
-        // TODO: fill this in.
-        throw new UnsupportedOperationException();
+
+		// collect all the entries in the table
+		List<Entry> allEntries = new ArrayList<Entry>();
+		for (MyLinearMap<K, V> map: maps){
+			Collection entries = map.getEntries();
+			for (Object entry:entries){
+				Entry e = (Entry)entry;
+				allEntries.add(e);
+			}
+		}
+      
+      // resize the table
+        makeMaps(maps.size()*2);
+
+       // add the entries back
+
+        for (Entry entry : allEntries ){
+        	put((K)entry.getKey(), (V)entry.getValue());
+        }
+
+
+
 	}
 
 	/**
